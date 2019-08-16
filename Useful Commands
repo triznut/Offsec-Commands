@@ -99,6 +99,8 @@ grep -o '[A-Za-z0-9_\.-]*\.*example.com' index.html |sort -u
 Gobuster URL and Directory bruteforce:
 gobuster -u http:// <ip>/ -w /usr/share/seclists/Discovery/Web_Content/cgis.txt -s '200,204,403,500' -e
 
+Wireshark filter (host/port):
+host <IP> and tcp port <Port>
 
 Stderr instead of Stdout:
 2>&1
