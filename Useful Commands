@@ -22,6 +22,12 @@ UNICORNSCAN (Port scanning):
 unicornscan -i tap0 -I -mU <ip>:<port or range> (UDP)
 unicornscan -vv -i tap0 -I -mT <ip>:<port or range> (TCP)
 
+Host command DNS record type lookup (ex.nameservers and mail):
+host -t NS example.com
+host -t MX example.com
+
+Host command DNS zone transfer:
+host -l example.com ns.example.com
 
 DNSRECON (Zone Transfer):
 dnsrecon -a -d <domain name>
