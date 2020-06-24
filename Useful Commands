@@ -8,7 +8,7 @@ ncat -lvp 4444 --allow <IP> --ssl
 ncat -v <IP> 4444 --ssl
 
 
-NMAP/MSF scanning:
+NMAP/NMAP_MSF service scanning:
 nmap -Pn -v -sV -O <ip> -oG <ip>_nmap.txt
 nmap -Pn -v -A <ip> -oG <ip>_nmap.txt
 nmap -Pn -v -p <ports> --script=vuln* <IP>
@@ -17,6 +17,8 @@ db_nmap -Pn -v -sV -O <ip>
 db_nmap -Pn -v -A <ip>
 db_nmap -v -Pn -A -sU -T 4 --top-ports 500 <ip> (UDP)
 
+NMAP Vulnerability scanning:
+nmap -Pn -v --script vuln <target>
 
 UNICORNSCAN (Port scanning):
 unicornscan -i tap0 -I -mU <ip>:<port or range> (UDP)
