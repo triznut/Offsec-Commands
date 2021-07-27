@@ -1,0 +1,139 @@
+**Enumerate Users:
+
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+$PDC = ($domainObj.PdcRoleOwner).Name
+
+$SearchString = "LDAP://"
+
+$SearchString += $PDC + "/"
+
+$DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
+
+$SearchString += $DistinguishedName
+
+$SearchString
+
+$Searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]$SearchString)
+
+$objDomain = New-Object System.DirectoryServices.DirectoryEntry
+
+$Searcher.SearchRoot = $objDomain
+
+$Searcher.filter="samAccountType=805306368"
+
+$Result = $Searcher.FindAll()
+
+Foreach($obj in $Result)
+{
+		Foreach($prop in $obj.Properties)
+		{
+					$prop
+					
+		}
+  
+		Write-Host "------------------------"
+}
+
+
+**Enumerate Nested Groups:
+
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+$PDC = ($domainObj.PdcRoleOwner).Name
+
+$SearchString = "LDAP://"
+
+$SearchString += $PDC + "/"
+
+$DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
+
+$SearchString += $DistinguishedName
+
+$SearchString
+
+$Searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]$SearchString)
+
+$objDomain = New-Object System.DirectoryServices.DirectoryEntry
+
+$Searcher.SearchRoot = $objDomain
+
+$Searcher.filter="(name=Secret_Group)"
+
+$Searcher.filter="(objectClass=Group)"
+
+$Result = $Searcher.FindAll()
+
+Foreach($obj in $Result)
+{
+		$obj.Properties.name
+}
+
+
+**Modified for Nested Group:
+
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+$PDC = ($domainObj.PdcRoleOwner).Name
+
+$SearchString = "LDAP://"
+
+$SearchString += $PDC + "/"
+
+$DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
+
+$SearchString += $DistinguishedName
+
+$SearchString
+
+$Searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]$SearchString)
+
+$objDomain = New-Object System.DirectoryServices.DirectoryEntry
+
+$Searcher.SearchRoot = $objDomain
+
+$Searcher.filter="(name=Nested_Group)"
+
+$Searcher.filter="(objectClass=Group)"
+
+$Result = $Searcher.FindAll()
+
+Foreach($obj in $Result)
+{
+		$obj.Properties.member
+}
+
+
+**Finding Service Principals Names (SPN):
+
+$domainObj = [System.DirectoryServices.ActiveDirectory.Domain]::GetCurrentDomain()
+
+$PDC = ($domainObj.PdcRoleOwner).Name
+
+$SearchString = "LDAP://"
+
+$SearchString += $PDC + "/"
+
+$DistinguishedName = "DC=$($domainObj.Name.Replace('.', ',DC='))"
+
+$SearchString += $DistinguishedName
+
+$SearchString
+
+$Searcher = New-Object System.DirectoryServices.DirectorySearcher([ADSI]$SearchString)
+
+$objDomain = New-Object System.DirectoryServices.DirectoryEntry
+
+$Searcher.SearchRoot = $objDomain
+
+$Searcher.filter="serviceprincipalname=*http*"
+
+$Result = $Searcher.FindAll()
+
+Foreach($obj in $Result)
+{
+		Foreach($prop in $obj.Properties)
+		{
+			$prop
+		}	
+}
