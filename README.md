@@ -1,1 +1,3 @@
-# Offsec-Commands
+# OffSec:
+
+Mimikatz Commands
